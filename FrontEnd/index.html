@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+      rel="stylesheet"
+    />
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <link
@@ -24,7 +27,9 @@
         <ul>
           <li><a href="#portfolio">projets</a></li>
           <li><a href="#contact">contact</a></li>
-          <li id="login-nav-btn"><a href="http://127.0.0.1:5501/FrontEnd/login.html">login</a></li>
+          <li id="login-nav-btn">
+            <a href="http://127.0.0.1:5500/login.html">login</a>
+          </li>
           <li id="logout-nav-btn"><a href="">logout</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
@@ -37,12 +42,21 @@
         </figure>
         <article>
           <h2>Designer d'espace</h2>
-          <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
           <p>
-            Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et
-            le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.
+            Je raconte votre histoire, je valorise vos idées. Je vous accompagne
+            de la conception à la livraison finale du chantier.
           </p>
-          <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+          <p>
+            Chaque projet sera étudié en commun, de façon à mettre en valeur les
+            volumes, les matières et les couleurs dans le respect de l’esprit
+            des lieux et le choix adapté des matériaux. Le suivi du chantier
+            sera assuré dans le souci du détail, le respect du planning et du
+            budget.
+          </p>
+          <p>
+            En cas de besoin, une équipe pluridisciplinaire peut-être constituée
+            : architecte DPLG, décorateur(trice)
+          </p>
         </article>
       </section>
       <!-- Works -->
@@ -56,13 +70,42 @@
       </section>
       <!-- Modal -->
       <section id="modal">
-        <div class="modal-content">
+        <div class="first-modal modal-content">
           <span class="close">&times;</span>
           <div class="display-margin">
             <h2>Galerie photo</h2>
             <div id="modal-works"></div>
             <hr />
             <button id="add-photo-btn">Ajouter une photo</button>
+          </div>
+        </div>
+        <!-- second modal -->
+        <div class="add-work-modal modal-content">
+          <i class="fa-solid fa-arrow-left back-arrow"></i>
+          <span class="close">&times;</span>
+          <div class="display-margin">
+            <h2>Ajout photo</h2>
+            <form id="work-form" method="post">
+              <div class="photo-upload">
+                <label for="file-input" class="file-input">
+                  <i class="fa-regular fa-image"></i>
+                  <div class="upload-button">+ Ajouter photo</div>
+                  <div class="file-info">jpg, png : 4mo max</div>
+                </label>
+                <input
+                  id="file-input"
+                  type="file"
+                  accept=".jpg, .jpeg, .png"
+                  hidden
+                />
+              </div>
+              <label for="title">Titre</label>
+              <input type="text" name="title" id="title" />
+              <label for="category-select">Catégorie</label>
+              <select name="category" id="category-select"></select>
+              <hr />
+              <input type="submit" value="Valider" />
+            </form>
           </div>
         </div>
       </section>

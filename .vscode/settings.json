@@ -4,5 +4,5 @@
     },
     "editor.detectIndentation": false,
     "prettier.printWidth": 160,
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5500
 }
