@@ -5,9 +5,9 @@ let allCategories = [];
 
 // Initial function calls to populate the gallery and modal with works
 async function initializeWorks() {
-  allWorks = await getAllWorks(); // Met à jour allWorks avec les données récupérées
-  displayWorks(); // Affiche toutes les œuvres
-  displayWorksOnModal(); // Affiche les œuvres dans le modal
+  allWorks = await getAllWorks();
+  displayWorks();
+  displayWorksOnModal();
 }
 
 initializeWorks();
@@ -134,6 +134,17 @@ isLoggedDisplay();
 // Function to display items only when user is logged in
 function isLoggedDisplay() {
   if (localStorage.getItem("token")) {
+    // Display edition banner
+    const body = document.getElementsByTagName("body")[0];
+    body.insertAdjacentHTML(
+      "afterbegin",
+      `<div id="edition-banner">
+      <i class="fa-regular fa-pen-to-square"></i>
+      <p>Mode édition</p>
+    </div>`
+    );
+    body.style.paddingTop = "50px";
+
     // Display login or logout
     const loginNavBtn = document.getElementById("login-nav-btn");
     loginNavBtn.classList.add("hide-nav-btn");
@@ -169,14 +180,15 @@ const openEditModal = document.getElementById("add-photo-btn");
 const addWorkModal = document.querySelector(".add-work-modal");
 const backArrow = document.querySelector(".back-arrow");
 
-displCategoriesOnSelect();
+displayCategoriesOnSelect();
 
-async function displCategoriesOnSelect() {
+// Function to display categories on select input
+async function displayCategoriesOnSelect() {
   const categorySelect = document.getElementById("category-select");
 
   const emptyOption = document.createElement("option");
-  emptyOption.value = ""; // Valeur vide
-  emptyOption.textContent = ""; // Texte vide ou tu peux mettre "Select a category" par exemple
+  emptyOption.value = "";
+  emptyOption.textContent = "";
   categorySelect.appendChild(emptyOption);
   emptyOption.selected = true;
   emptyOption.disabled = true;
@@ -258,6 +270,7 @@ async function displayWorksOnModal() {
   }
 }
 
+// Function to delete a work
 async function deleteWork(workId) {
   try {
     const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
@@ -325,26 +338,43 @@ document
     await addWork();
   });
 
+const titleInput = document.getElementById("title");
+const categorySelect = document.getElementById("category-select");
+const submitButton = document.querySelector('input[type="submit"]');
+
+submitButton.disabled = true;
+submitButton.classList.add("disabled");
+
+// Function to check the validity of the form
+function checkFormValidity() {
+  const isTitleFilled = titleInput.value.trim() !== "";
+  const isCategorySelected = categorySelect.value !== "";
+  const isFileSelected = fileInput.files.length > 0;
+
+  if (isTitleFilled && isCategorySelected && isFileSelected) {
+    submitButton.disabled = false;
+    submitButton.classList.remove("disabled");
+  } else {
+    submitButton.disabled = true;
+    submitButton.classList.add("disabled");
+  }
+}
+
+titleInput.addEventListener("input", checkFormValidity);
+categorySelect.addEventListener("change", checkFormValidity);
+fileInput.addEventListener("change", checkFormValidity);
+
 // Function to create a work
 async function addWork() {
   let formData = new FormData();
 
-  //   Ajouter le fichier image si présent
-  let fileInput = document.getElementById("file-input");
   if (fileInput.files && fileInput.files.length > 0) {
     formData.append("image", fileInput.files[0]);
   }
-
-  // Ajouter le titre
-  let titleInput = document.getElementById("title");
   formData.append("title", titleInput.value);
-
-  // Ajouter la catégorie
-  let categorySelect = document.getElementById("category-select");
   formData.append("category", categorySelect.value);
 
   try {
-    // Envoyer les données du projet à l'API via une requête POST
     const response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       headers: {
@@ -372,10 +402,13 @@ async function addWork() {
   }
 }
 
+// Function to reset the form
 function resetForm() {
-  document.getElementById("work-form").reset(); // Réinitialiser le formulaire
+  document.getElementById("work-form").reset();
   document.querySelector(".file-input").innerHTML =
     '<i class="fa-regular fa-image"></i><div class="upload-button">+ Ajouter photo</div><div class="file-info">jpg, png : 4mo max</div>';
   const categorySelect = document.getElementById("category-select");
   categorySelect.selectedIndex = 0;
+  submitButton.disabled = true;
+  submitButton.classList.add("disabled");
 }
