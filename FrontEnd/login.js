@@ -18,9 +18,7 @@ loginForm.addEventListener("submit", async (event) => {
     const setToken = await response.json();
     if (typeof token === "string" && localStorage.getItem("token") === null) {
       localStorage.setItem("token", setToken.token);
-      setTimeout(() => {
-        window.location.href = "./index.html";
-      }, 100);
+      window.location.href = "./index.html";
     }
   } else {
     const errorMessage = document.getElementById("error-message");

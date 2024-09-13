@@ -129,6 +129,13 @@ function filterWorks(category) {
 
 //////////////////////////////////////////////////////////////////////// Login / Logout ////////////////////////////////////////////////////////////////////////
 
+document
+  .getElementById("login-nav-btn")
+  .addEventListener("click", function (event) {
+    event.preventDefault(); // Empêche le comportement par défaut du lien
+    window.location.href = "http://127.0.0.1:5500/login.html"; // Redirection vers la page login
+  });
+
 isLoggedDisplay();
 
 // Function to display items only when user is logged in
