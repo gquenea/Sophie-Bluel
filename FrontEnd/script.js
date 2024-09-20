@@ -191,23 +191,25 @@ displayCategoriesOnSelect();
 
 // Function to display categories on select input
 async function displayCategoriesOnSelect() {
-  const categorySelect = document.getElementById("category-select");
+  if (localStorage.getItem("token")) {
+    const categorySelect = document.getElementById("category-select");
 
-  const emptyOption = document.createElement("option");
-  emptyOption.value = "";
-  emptyOption.textContent = "";
-  categorySelect.appendChild(emptyOption);
-  emptyOption.selected = true;
-  emptyOption.disabled = true;
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.textContent = "";
+    categorySelect.appendChild(emptyOption);
+    emptyOption.selected = true;
+    emptyOption.disabled = true;
 
-  const categories = await getAllCategories();
-  categories.forEach((category) => {
-    const option = document.createElement("option");
-    option.value = category.id;
-    option.textContent = category.name;
+    const categories = await getAllCategories();
+    categories.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.id;
+      option.textContent = category.name;
 
-    categorySelect.appendChild(option);
-  });
+      categorySelect.appendChild(option);
+    });
+  }
 }
 
 // Function to open works modal
@@ -245,35 +247,37 @@ window.addEventListener("click", (event) => {
 
 // Function to display all works on modal
 async function displayWorksOnModal() {
-  try {
-    const works = await getAllWorks();
-    const modalWorks = document.getElementById("modal-works");
-    modalWorks.innerHTML = "";
+  if (localStorage.getItem("token")) {
+    try {
+      const works = await getAllWorks();
+      const modalWorks = document.getElementById("modal-works");
+      modalWorks.innerHTML = "";
 
-    works.forEach((work) => {
-      const workElement = document.createElement("figure");
+      works.forEach((work) => {
+        const workElement = document.createElement("figure");
 
-      workElement.innerHTML = `
+        workElement.innerHTML = `
         <img src="${work.imageUrl}" alt="${work.title}" />
         <i class="fa-solid fa-trash-can delete-work"></i>
       `;
 
-      workElement
-        .querySelector(".delete-work")
-        .addEventListener("click", async (event) => {
-          event.preventDefault();
-          await deleteWork(work.id);
-          workElement.remove();
-        });
+        workElement
+          .querySelector(".delete-work")
+          .addEventListener("click", async (event) => {
+            event.preventDefault();
+            await deleteWork(work.id);
+            workElement.remove();
+          });
 
-      modalWorks.appendChild(workElement);
-    });
-  } catch (error) {
-    console.error(
-      "Une erreur s'est produite lors de l'affichage des projets. :",
-      error.message
-    );
-    alert("Une erreur s'est produite lors de l'affichage des projets.");
+        modalWorks.appendChild(workElement);
+      });
+    } catch (error) {
+      console.error(
+        "Une erreur s'est produite lors de l'affichage des projets. :",
+        error.message
+      );
+      alert("Une erreur s'est produite lors de l'affichage des projets.");
+    }
   }
 }
 
